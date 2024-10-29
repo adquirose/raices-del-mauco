@@ -51,6 +51,7 @@ const Button = styled.button`
     color:${props => props.color ? props.color: 'white'};
     cursor:pointer;
     font-size:0.75rem;
+
 `
 const Image = styled.img`
     width:100%;
@@ -110,12 +111,12 @@ const Ficha = ({ dataLote = {}, setVisibleFicha, visibleFicha }) => {
             <ContainerText>
                 <P>Estado: { estado }</P>
                 <P>Valor: $ { valor }</P>
-                <P>Superficie: { superficie } M2</P>
+                <P>Superficie ROL: { superficie } M2</P>
                 <P>{dataLote.caracteristica}</P>
             </ContainerText>
             <ButtonGroup>
                 <Button type="Button" onClick={() => setVisibleFicha(!visibleFicha)}>CONTINUAR</Button>
-                <Button type="Button" onClick={() => window.open('/plano.pdf')}>DESCARGAR PLANO</Button>
+                <Button $background="gray" disabled type="Button" onClick={() => window.open('/plano.pdf')}>DESCARGAR PLANO</Button>
             </ButtonGroup> 
         </FichaContainer>
     )

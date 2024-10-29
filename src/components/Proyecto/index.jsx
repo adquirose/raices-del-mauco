@@ -1,6 +1,6 @@
 import styled from "styled-components"
 import Logo from "../../assets/logo-color.png"
-import { MobileContact } from '../Icons'
+import { LogoWhatsapp } from '../Icons'
 
 export const ProyectoContainer = styled.div`
     max-width:520px;
@@ -54,30 +54,29 @@ const Proyecto = () => {
             <div style={{width:'100%', paddingBottom:'7px'}}>
                 <Parrafo $textAlign="left" $fontWeight="600" >Ubicación privilegiada</Parrafo>
                 <Parrafo>
-                    A solo 5 km de la rotonda de Concón, en el sector Las Gaviotas, comuna de
-                    Quintero. Raíces del Mauco te ofrece un entorno natural único, a minutos de la
-                    costa. Parcelas desde 1.000 m² útiles pensadas para quienes buscan un estilo de
-                    vida conectado con la naturaleza, sin alejarse de la ciudad.
+                    A solo 5 km de la rotonda de Concón, en el sector de Las Gaviotas, 
+                    comuna de Quintero, Raíces del Mauco te ofrece un entorno natural único, 
+                    a minutos de las playas de Concón y fácil conexión a las rutas que llevan 
+                    a Maitencillo, Zapallar y Cachagua. Parcelas desde 1.000 m² útiles, 
+                    ideales para quienes buscan un estilo de vida en armonía con la naturaleza, 
+                    sin alejarse de la ciudad.
                 </Parrafo>
             </div>
             
             <div style={{width:'100%', paddingBottom:'7px'}}>
                 <Parrafo $textAlign="left" $fontWeight="600" >Características del Proyecto</Parrafo>
                 <Parrafo>
-                - Cercanía: Sector Las Gaviotas, a minutos de la rotonda Concón.<br/>
-                - Parcelas amplias: Desde 1.000 m² útiles, ideales para tu hogar.<br/>
-                - Infraestructura: Luz eléctrica, pórtico de entrada, cámaras de seguridad,
-                mirador con área de descanso, y caminos de maicillo con solera tipo
-                manquehue.<br/>
-                - Entorno natural: Flora nativa y paisajes inigualables.
+                    - Infraestructura: Luz eléctrica, pórtico de entrada, 
+                        cámaras de seguridad, mirador con área de descanso, y caminos compactados con maicillo y solera tipo manquehue. 
+                    - Entorno natural: Flora nativa y paisajes inigualables.
+
             </Parrafo>
             </div>
             
             <div style={{width:'100%', paddingBottom:'7px'}}>
                 <Parrafo $textAlign="left" $fontWeight="600" >Conectividad</Parrafo>
                 <Parrafo>
-                    Cercano a Concón, Viña del Mar y Valparaíso. Accede fácilmente a servicios,
-                    colegios, centros de salud, comercio y recreación.
+                    Cercano a Concón, Viña del Mar y Valparaíso y conectado a ruta F-30 a Santiago. Accede fácilmente a comercio, centros de salud, colegios y recreación.
                 </Parrafo>
             </div>
             
@@ -85,6 +84,8 @@ const Proyecto = () => {
                 <Parrafo $textAlign="left" $fontWeight="600" >Precio de las Parcelas</Parrafo>
                 <Parrafo $textAlign="left">
                     Desde UF 995.
+                    <br/><br/>
+                    ¡Descubre tu nuevo hogar en Raíces del Mauco! Agenda tu visita hoy mismo.
                 </Parrafo>
             </div>
            
@@ -92,9 +93,9 @@ const Proyecto = () => {
                 <Parrafo $textAlign="left" $fontWeight="600" >¡Descubre tu nuevo hogar en Raíces del Mauco! Agenda tu visita hoy mismo.</Parrafo>   
             </div>
             <div style={{width:'100%', paddingBottom:'24px'}}>
-                <a style={{textDecoration:'none', color:'black', display:'flex', alignItems:'center', justifyContent:'center'}} href="tel:+56946346676">
-                    <MobileContact width="36" strokewidth="2"/>
-                    +56 9 4634 6676
+                <a style={{textDecoration:'none', color:'black', display:'flex', alignItems:'center', justifyContent:'center'}} href="https://wa.me/56946346676?text=Hola%20Estoy%20interesado%20en%20el%20Proyecto%20Raices%20de%20Mauco">
+                    <LogoWhatsapp fill="black" width="36" height="36"/>
+                    <span style={{paddingLeft:12}}>+56 9 4634 6676</span>
                 </a>
             </div>
         </ProyectoContainer>

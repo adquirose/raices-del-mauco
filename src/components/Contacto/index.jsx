@@ -5,7 +5,7 @@ import { ProyectoContainer } from "../Proyecto";
 import Alerta from "../Alerta";
 import styled from "styled-components";
 import theme from "../../constants";
-import { MobileContact, Email } from '../Icons'
+import { LogoWhatsapp, Email } from '../Icons'
 
 const INITIAL_STATE = {
     nombre:'',
@@ -111,7 +111,7 @@ const Contacto = () => {
             to:'contacto@raicesdemauco.cl',
             replyTo: email,
             subject:'Formulario Contacto',
-            text:'Santa María',
+            text:'Raices de Mauco',
             html: msj,
             nombre: nombre,
             email: email,
@@ -155,14 +155,14 @@ const Contacto = () => {
                     </InputLabel>
                 </Form>
                 <div>
-                    <div onClick={() => window.open('tel:+56946346676')} style={{display:'flex', alignItems:'center', cursor:'pointer'}}>
-                        <MobileContact width="32" height="32" strokewidth="2"/>
+                    <div onClick={() => window.open("https://wa.me/56946346676?text=Hola%20Estoy%20interesado%20en%20el%20Proyecto%20Raices%20de%20Mauco")} style={{display:'flex', alignItems:'center', cursor:'pointer'}}>
+                        <LogoWhatsapp fill="black" width="36" height="36" />
                         <div style={{paddingLeft:12}}>
                             <p style={{margin:0}}>+569 4634 6676</p>
                         </div>
                     </div>
                     <Anchor  href="mailto:contacto@raicesdemauco.cl" style={{display:'flex', alignItems:'center', cursor:'pointer'}}>
-                        <Email width="32" height="32" strokewidth="2"/>
+                        <Email width="32" height="32" strokewidth="3"/>
                         <div style={{paddingLeft:12}}>
                             <p style={{margin:0}}>contacto@raicesdemauco.cl</p>
                         </div>

@@ -85,6 +85,7 @@
 	</action>
 
 	<layer name="logo" handcursor="false" url="skin/logo-blanco.png" scale="0.35" visible="true" keep="true" edge="top" align="top" x="0" y="0" />
+	<layer name="logo_darwin" handcursor="false" url="skin/logo-darwin.png" scale="0.45" visible="true" keep="true" edge="bottomright" align="bottomright" x="0" y="70" />
 	<scene name="scene_master" title="Masterplan 360º" onstart="mostrar_btn_vistageneral(false);generar_spots(1,64);" thumburl="panos/master.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="4062.648" vlookat="29.890" fovtype="MFOV" fov="110.848" maxpixelzoom="2.0" fovmin="70" fovmax="130" limitview="range" hlookatmin="-180" hlookatmax="180" vlookatmin="-33" vlookatmax="90"/>

@@ -14,13 +14,9 @@ const Galeria = ({estado, setEstado}) => {
             slides={[
                 { src: new URL('../../assets/galeria/1.jpg', import.meta.url).href, },
                 { src: new URL('../../assets/galeria/2.jpg', import.meta.url).href, },
-                { src: new URL('../../assets/galeria/3.jpg', import.meta.url).href, },
-                { src: new URL('../../assets/galeria/4.jpg', import.meta.url).href, },
                 { src: new URL('../../assets/galeria/5.jpg', import.meta.url).href, },
                 { src: new URL('../../assets/galeria/6.jpg', import.meta.url).href, },
                 { src: new URL('../../assets/galeria/7.jpg', import.meta.url).href, },
-                { src: new URL('../../assets/galeria/8.jpg', import.meta.url).href, },
-                { src: new URL('../../assets/galeria/9.jpg', import.meta.url).href, },
             ]}
         />
     )
