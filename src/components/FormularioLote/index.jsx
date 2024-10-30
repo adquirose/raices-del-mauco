@@ -120,6 +120,7 @@ const INITIAL_STATE_LOTE = {
     nombreLote:'',
     valor:'',
     superficie:'',
+    superficieUtil:'',
     fecha: new Date()
 }
 const INITIAL_STATE_ALERTA = {
@@ -155,8 +156,8 @@ const FormularioLote = ({lote}) => {
     }
     const handleSubmit = event => {
         event.preventDefault()
-        const { fecha, valor, estado, nombreLote, superficie } = data 
-        const newLote = { valor, estado, nombreLote, superficie, fecha: getUnixTime(fecha), uid:user.uid }
+        const { fecha, valor, estado, nombreLote, superficie, superficieUtil } = data 
+        const newLote = { valor, estado, nombreLote, superficie, superficieUtil, fecha: getUnixTime(fecha), uid:user.uid }
         if(lote){
             editarLote({
                 ...data,
@@ -197,6 +198,10 @@ const FormularioLote = ({lote}) => {
                     <InputLabel>
                         <Label>Superficie M2</Label>
                         <Input type="text" name="superficie" value={data.superficie} onChange={handleChange} placeholder="Superficie M2"/>
+                    </InputLabel>
+                    <InputLabel>
+                        <Label>Sup. Util M2</Label>
+                        <Input type="text" name="superficieUtil" value={data.superficieUtil} onChange={handleChange} placeholder="Superficie Util M2"/>
                     </InputLabel>
                     
                     <InputLabel>

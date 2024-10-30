@@ -67,7 +67,8 @@ const Proyecto = () => {
                 <Parrafo $textAlign="left" $fontWeight="600" >Características del Proyecto</Parrafo>
                 <Parrafo>
                     - Infraestructura: Luz eléctrica, pórtico de entrada, 
-                        cámaras de seguridad, mirador con área de descanso, y caminos compactados con maicillo y solera tipo manquehue. 
+                        cámaras de seguridad, mirador con área de descanso, caminos compactados con maicillo 
+                        y solera tipo manquehue. <br/>
                     - Entorno natural: Flora nativa y paisajes inigualables.
 
             </Parrafo>
