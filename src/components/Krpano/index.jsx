@@ -98,6 +98,7 @@ const Ficha = ({ dataLote = {}, setVisibleFicha, visibleFicha }) => {
     const formatter = new Intl.NumberFormat('de-DE', {});
     const valor = formatter.format(dataLote.valor)
     const superficie = formatter.format(dataLote.superficie)
+    const superficieUtil = formatter.format(dataLote.superficieUtil)
     const estado = dataLote.estado == 'nodisponible' ? 'No disponible' : dataLote.estado
     return(
         <FichaContainer $visibleFicha={visibleFicha}>
@@ -110,13 +111,14 @@ const Ficha = ({ dataLote = {}, setVisibleFicha, visibleFicha }) => {
             </ContainerTitulo>
             <ContainerText>
                 <P>Estado: { estado }</P>
-                <P>Valor: $ { valor }</P>
+                <P>Valor: UF { valor }</P>
                 <P>Superficie ROL: { superficie } M2</P>
+                <P>Superficie Util: { superficieUtil } M2</P>
                 <P>{dataLote.caracteristica}</P>
             </ContainerText>
             <ButtonGroup>
                 <Button type="Button" onClick={() => setVisibleFicha(!visibleFicha)}>CONTINUAR</Button>
-                <Button $background="gray" disabled type="Button" onClick={() => window.open('/plano.pdf')}>DESCARGAR PLANO</Button>
+                <Button type="Button" onClick={() => window.open('/plano.pdf')}>DESCARGAR PLANO</Button>
             </ButtonGroup> 
         </FichaContainer>
     )

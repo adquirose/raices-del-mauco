@@ -19,7 +19,6 @@ const Entorno = ({estado, setEstado}) => {
                 { src: new URL('../../assets/entorno/playa1.jpg', import.meta.url).href, description:'Playa' },
                 { src: new URL('../../assets/entorno/3.jpg', import.meta.url).href, description:'' },
                 { src: new URL('../../assets/entorno/4.jpg', import.meta.url).href, description:'Colegio' },
-                { src: new URL('../../assets/entorno/5.jpg', import.meta.url).href, description:'Colegio' },
                 { src: new URL('../../assets/entorno/6.jpg', import.meta.url).href, description:'Supermercado' },
                 { src: new URL('../../assets/entorno/7.jpg', import.meta.url).href, description:'Supermercado' },
                 { src: new URL('../../assets/entorno/8.jpg', import.meta.url).href, description:'Comercio' },
