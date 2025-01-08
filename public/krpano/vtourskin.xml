@@ -1,8 +1,6 @@
-<krpano>
+﻿<krpano>
 
-	<!-- krpano 1.20.11 - Virtual Tour Skin -->
-
-
+	<!-- krpano 1.20.8 - Virtual Tour Skin -->
 	<!-- skin settings (can be overridden in the tour.xml) -->
 	<skin_settings maps="false"
 	               maps_type="google"
@@ -10,7 +8,7 @@
 	               maps_google_api_key=""
 	               maps_zoombuttons="false"
 	               maps_loadonfirstuse="true"
-	               gyro="true"
+	               gyro="false"
 	               gyro_keeplookingdirection="false"
 	               webvr="false"
 	               webvr_keeplookingdirection="true"
@@ -22,7 +20,7 @@
 	               thumbs="true"
 	               thumbs_width="120" thumbs_height="80" thumbs_padding="10" thumbs_crop="0|40|240|160"
 	               thumbs_opened="false"
-	               thumbs_text="false"
+	               thumbs_text="true"
 	               thumbs_dragging="true"
 	               thumbs_onhoverscrolling="false"
 	               thumbs_scrollbuttons="false"
@@ -37,7 +35,7 @@
 	               loadscene_blend="OPENBLEND(0.5, 0.0, 0.75, 0.05, linear)"
 	               loadscene_blend_prev="SLIDEBLEND(0.5, 180, 0.75, linear)"
 	               loadscene_blend_next="SLIDEBLEND(0.5,   0, 0.75, linear)"
-	               loadingtext=""
+	               loadingtext="loading..."
 	               layout_width="100%"
 	               layout_maxwidth="814"
 	               controlbar_width="-24"
@@ -352,26 +350,34 @@
 
 		<layer name="skin_control_bar" type="container" align="bottom" width="get:skin_settings.controlbar_width" height="calc:skin_settings.controlbar_height" x="0" y="get:skin_settings.controlbar_offset" onloaded="skin_calc_opened_closed();" zorder="3">
 			<layer name="skin_control_bar_buttons" type="container" align="leftbottom" width="100%" height="get:skin_settings.controlbar_height">
-				<layer name="skin_btn_prev"      style="skin_base|skin_glow" crop="0|64|64|64"   align="left"        x="5"    y="0"  scale="0.5" alpha="0.5"  onclick="if(skin_settings.thumbs_loop, skin_nextscene_loop(-1), skin_nextscene(-1) );" />
+				<!-- <layer name="skin_btn_prev"      style="skin_base|skin_glow" crop="0|64|64|64"   align="left"        x="5"    y="0"  scale="0.5" alpha="0.5"  onclick="if(skin_settings.thumbs_loop, skin_nextscene_loop(-1), skin_nextscene(-1) );" /> -->
 				<layer name="skin_btn_thumbs"    style="skin_base|skin_glow" crop="0|128|64|64"  align="left"        x="50"   y="0"  scale="0.5" ondown="skin_showmap(false); skin_showthumbs();" />
 				<layer name="skin_btn_map"       style="skin_base|skin_glow" crop="64|128|64|64" align="left"        x="90"   y="0"  scale="0.5" ondown="skin_showthumbs(false); skin_showmap();" visible="false" />
-				<layer name="skin_btn_navi" type="container" align="center" x="0" width="240" height="32">
-					<layer name="skin_btn_left"  style="skin_base|skin_glow" crop="0|192|64|64"  align="center"      x="-100" y="0"  scale="0.5" ondown="set(hlookat_moveforce,-1);" onup="set(hlookat_moveforce,0);" />
-					<layer name="skin_btn_right" style="skin_base|skin_glow" crop="64|192|64|64" align="center"      x="-60"  y="0"  scale="0.5" ondown="set(hlookat_moveforce,+1);" onup="set(hlookat_moveforce,0);" />
-					<layer name="skin_btn_up"    style="skin_base|skin_glow" crop="0|256|64|64"  align="center"      x="-20"  y="0"  scale="0.5" ondown="set(vlookat_moveforce,-1);" onup="set(vlookat_moveforce,0);" />
-					<layer name="skin_btn_down"  style="skin_base|skin_glow" crop="64|256|64|64" align="center"      x="+20"  y="0"  scale="0.5" ondown="set(vlookat_moveforce,+1);" onup="set(vlookat_moveforce,0);" />
-					<layer name="skin_btn_in"    style="skin_base|skin_glow" crop="0|320|64|64"  align="center"      x="+60"  y="0"  scale="0.5" ondown="set(fov_moveforce,-1);"     onup="set(fov_moveforce,0);" />
-					<layer name="skin_btn_out"   style="skin_base|skin_glow" crop="64|320|64|64" align="center"      x="+100" y="0"  scale="0.5" ondown="set(fov_moveforce,+1);"     onup="set(fov_moveforce,0);" />
+				<layer name="skin_btn_navi" type="container" align="center" x="0" width="300" height="32">
+					<layer name="skin_btn_left"  style="skin_base|skin_glow" crop="0|192|64|64"  align="center"      x="-120" y="0"  scale="0.5" ondown="set(hlookat_moveforce,-1);" onup="set(hlookat_moveforce,0);" />
+					<layer name="skin_btn_right" style="skin_base|skin_glow" crop="64|192|64|64" align="center"      x="-80"  y="0"  scale="0.5" ondown="set(hlookat_moveforce,+1);" onup="set(hlookat_moveforce,0);" />
+					<layer name="skin_btn_up"    style="skin_base|skin_glow" crop="0|256|64|64"  align="center"      x="-40"  y="0"  scale="0.5" ondown="set(vlookat_moveforce,-1);" onup="set(vlookat_moveforce,0);" />
+					<layer name="skin_btn_down"  style="skin_base|skin_glow" crop="64|256|64|64" align="center"      x="0"  y="0"  scale="0.5" ondown="set(vlookat_moveforce,+1);" onup="set(vlookat_moveforce,0);" />
+					<layer name="skin_btn_in"    style="skin_base|skin_glow" crop="0|320|64|64"  align="center"      x="+40"  y="0"  scale="0.5" ondown="set(fov_moveforce,-1);"     onup="set(fov_moveforce,0);" />
+					<layer name="skin_btn_out"   style="skin_base|skin_glow" crop="64|320|64|64" align="center"      x="+80" y="0"  scale="0.5" ondown="set(fov_moveforce,+1);"     onup="set(fov_moveforce,0);" />
+					<layer name="skin_btn_fss"    style="skin_base|skin_glow" crop="0|576|64|64"  align="center"      x="+120" y="0"  scale="0.5" onclick="switch(fullscreen);" devices="fullscreensupport" />
+					
 				</layer>
+				<layer name="skin_btn_disponible" handcursor="false" url="disponible.png" align="right" x="5" y="0" scale="0.35" alpha="1" visible="true" onclick=""/>
+				<layer name="skin_btn_reservado" handcursor="false" url="reservado.png" align="right" x="90" y="0" scale="0.35" alpha="1" visible="true" onclick=""/>
+				<layer name="skin_btn_vendido" handcursor="false" url="vendido.png" align="right" x="175" y="0" scale="0.35" alpha="1" visible="true" onclick=""/>
+				
 				<layer name="skin_btn_gyro"      style="skin_base|skin_glow" crop="0|384|64|64"  align="center"      x="+140" y="0"  scale="0.5" onclick="switch(plugin[skin_gyro].enabled); if(plugin[skin_gyro].enabled, skin_showmap(false));" visible="false" devices="html5" />
 				<layer name="skin_btn_vr"        style="skin_base|skin_glow" crop="0|0|80|64"    align="center"      x="+146" y="0"  scale="0.5" onclick="webvr.enterVR();" visible="false" />
-				<layer name="skin_btn_fs"        style="skin_base|skin_glow" crop="0|576|64|64"  align="right"       x="90"   y="0"  scale="0.5" onclick="switch(fullscreen);" devices="fullscreensupport" />
-				<layer name="skin_btn_hide"      style="skin_base|skin_glow" crop="0|448|64|64"  align="right"       x="50"   y="0"  scale="0.5" onclick="skin_hideskin()" />
+				<!-- <layer name="skin_btn_hide"      style="skin_base|skin_glow" crop="0|448|64|64"  align="right"       x="50"   y="0"  scale="0.5" onclick="skin_hideskin()" /> -->
 				<layer name="skin_btn_show" type="container" bgcapture="true" align="bottom" width="100%" height="get:skin_settings.controlbar_height" y="calc:skin_settings.controlbar_height - skin_settings.controlbar_offset_closed" onclick="skin_showskin()" onhover="tween(alpha,1.0);" onout="tween(alpha,0.25);" ondown.touch="onhover();" onup.touch="onout();" visible="false" capture="false" alpha="0.0">
 					<layer name="skin_btn_show_icon" style="skin_base" crop="64|448|64|64" scale="0.5" align="bottom" y="2" enabled="false" />
 				</layer>
-				<layer name="skin_btn_next"      style="skin_base|skin_glow" crop="64|64|64|64"  align="right"       x="5"    y="0"   scale="0.5" alpha="0.5"  onclick="if(skin_settings.thumbs_loop, skin_nextscene_loop(+1), skin_nextscene(+1) );" />
+				<!-- <layer name="skin_btn_next"      style="skin_base|skin_glow" crop="64|64|64|64"  align="right"       x="5"    y="0"   scale="0.5" alpha="0.5"  onclick="if(skin_settings.thumbs_loop, skin_nextscene_loop(+1), skin_nextscene(+1) );" /> -->
 				</layer>
+				<layer name="skin_btn_disponible" handcursor="false" url="png/disponible.png" align="right" x="5" y="0" scale="0.35" alpha="1" visible="true" onclick=""/>
+				<layer name="skin_btn_reservado" handcursor="false" url="png/reservado.png" align="right" x="90" y="0" scale="0.35" alpha="1" visible="true" onclick=""/>
+				<layer name="skin_btn_vendido" handcursor="false" url="png/vendido.png" align="right" x="175" y="0" scale="0.35" alpha="1" visible="true" onclick=""/>
 			</layer>
 
 		<layer name="skin_loadingtext" type="text" align="center" x="5" y="-5" html="get:skin_settings.loadingtext" visible="false" bg="false" enabled="false" css="calc:skin_settings.design_text_css + ' text-align:center; font-style:italic; font-size:22px;'" textshadow="get:skin_settings.design_text_shadow" />
@@ -380,10 +386,10 @@
 	</layer>
 
 	<!-- previous/next scene buttons for the hidden skin mode -->
-	<layer name="skin_btn_prev_fs" keep="true" type="container" align="lefttop"  x="-50" width="40" height="100%" bgcapture="true" alpha="0.0" enabled="false" capture="false" zorder="2" onclick="skin_nextscene_loop(-1);" onhover="tween(alpha,1.0);" onout="tween(alpha,0.25);" ondown.touch="onhover();" onup.touch="onout();">
+	<layer name="skin_btn_prev_fs" keep="true" type="container" align="left"  x="0" width="40" height="300" bgcapture="true" alpha="1" enabled="true" capture="false" zorder="2" onclick="skin_nextscene_loop(-1);" onhover="tween(alpha,1.0);" onout="tween(alpha,0.85);" ondown.touch="onhover();" onup.touch="onout();">
 		<layer name="skin_btn_prev_fs_icon" style="skin_base" crop="0|64|64|64"  align="center" scale="0.5" enabled="false" />
 	</layer>
-	<layer name="skin_btn_next_fs" keep="true" type="container" align="righttop" x="-50" width="40" height="100%" bgcapture="true" alpha="0.0" enabled="false" capture="false" zorder="2" onclick="skin_nextscene_loop(+1);" onhover="tween(alpha,1.0);" onout="tween(alpha,0.25);" ondown.touch="onhover();" onup.touch="onout();">
+	<layer name="skin_btn_next_fs" keep="true" type="container" align="right" x="0" width="40" height="300" bgcapture="true" alpha="1" enabled="true" capture="false" zorder="2" onclick="skin_nextscene_loop(+1);" onhover="tween(alpha,1.0);" onout="tween(alpha,0.85);" ondown.touch="onhover();" onup.touch="onout();">
 		<layer name="skin_btn_next_fs_icon" style="skin_base" crop="64|64|64|64" align="center" scale="0.5" enabled="false" />
 	</layer>
 
@@ -406,23 +412,8 @@
 
 
 	<!-- skin actions -->
-	
-	<action name="skin_onstart_loadscene" scope="local" autorun="onstart">
-		
-		<!-- load first scene -->
-		loadscene(calc(isset(startscene) ? startscene : 0), null, MERGE);
-	
-		<!-- set optional startup lookat -->
-		if(isset(startlookat),
-			txtsplit(startlookat, ',', hlookat,vlookat,fov,distortion,architectural);
-			lookat(get(hlookat),get(vlookat),get(fov),get(distortion),get(architectural));
-		);
-
-	</action>
-	
-	
 	<action name="skin_startup" scope="local">
-		
+
 		<!-- apply skin settings on startup -->
 		if(skin_settings.thumbs,
 			if(skin_settings.thumbs_opened,
@@ -448,7 +439,7 @@
 			);
 		);
 
-		if(skin_settings.littleplanetintro AND !global.startlookat AND (device.webgl OR device.flash),
+		if(skin_settings.littleplanetintro AND !global.startactions AND (device.webgl OR device.flash),
 			skin_setup_littleplanetintro();
 		);
 
@@ -479,6 +470,8 @@
 
 
 	<action name="skin_addthumbs" scope="local">
+		
+		
 		
 		<!-- build a global array of visible scene thumbnails -->
 		def(global.thumbarray, array);
@@ -522,7 +515,8 @@
 
 				calc(thumbname, 'skin_thumb_' + i);
 				addlayer(get(thumbname));
-
+				txtreplace(num_scene, currentscene.ficha, 'ficha','');
+				
 				set(layer[get(thumbname)],
 					url=get(currentscene.thumburl),
 					keep=true,
@@ -534,7 +528,10 @@
 					x=calc(thumbpadding + i*thumbxoffset),
 					y=get(thumbpadding),
 					linkedscene=get(currentscene.name),
-					onclick='copy(layer[skin_thumbborder].parent, name); skin_loadscene(get(linkedscene),get(skin_settings.loadscene_blend));'
+					<!-- agregado parametro ficha -->
+					ficha=get(currentscene.ficha),
+					<!-- agregada la accion mostrar ficha con parametros de numero de lote y escena nulos -->
+					onclick='copy(layer[skin_thumbborder].parent, name);mostrar_ficha(get(ficha),'plano',get(spot[get(ficha)].html), get(linkedscene), spot[get(ficha)].estado);'
 				);
 					
 				set(currentscene, 
@@ -572,8 +569,8 @@
 				caller.addspot(get(spotname), get(scene[get(i)].lat), get(scene[get(i)].lng), get(scene[get(i)].heading), false, get(spotclickevent), null);
 				if(skin_settings.tooltips_mapspots,
 					set(layer[skin_map].spot[get(spotname)].tooltip, get(scene[get(i)].title) );
-					txtadd(layer[skin_map].spot[get(spotname)].onover, 'set(hovering,true);',  get(style[skin_tooltips].onover:addevent) );
-					txtadd(layer[skin_map].spot[get(spotname)].onout,  'set(hovering,false);', get(style[skin_tooltips].onout:addevent)  );
+					txtadd(layer[skin_map].spot[get(spotname)].onover, 'set(hovering,true);',  get(style[skin_tooltips].onover) );
+					txtadd(layer[skin_map].spot[get(spotname)].onout,  'set(hovering,false);', get(style[skin_tooltips].onout)  );
 				);
 			);
 		);
@@ -596,6 +593,7 @@
 					tween(view.hlookat|view.vlookat|view.fov|view.distortion, calc('' + lpinfo.hlookat + '|' + lpinfo.vlookat + '|' + lpinfo.fov + '|' + 0.0), 3.0, easeOutQuad);
 					delayedcall(3.0,
 						set(control.usercontrol, all);
+						skin_update_bouncinglimits_control();
 						tween(view.fovmax, get(lpinfo.fovmax));
 						skin_deeplinking_update_url();
 						delete(global.lpinfo);
@@ -699,7 +697,7 @@
 
 		copy(layer[skin_btn_fs].visible, show_fsbutton);
 		copy(layer[skin_btn_fs].x, rpos);
-		if(show_fsbutton, inc(rpos,40));
+		if(show_fsbutton, inc(rpos,0));
 	</action>
 
 
@@ -798,6 +796,8 @@
 				set(layer[skin_btn_gyro].visible, false)
 			);
 			
+			skin_update_bouncinglimits_control();
+
 			if(scene[get(xml.scene)].isvideopano AND plugin[video] !== null,
 				skin_video_addcontrols();
 			  ,
@@ -806,6 +806,19 @@
 		);
 	</action>
 	
+	<action name="skin_update_bouncinglimits_control" scope="local">
+		if(view.vlookatrange LT 180 AND image.type != 'flat',
+			if(skin_settings.backup_control_bouncinglimits === null,
+				copy(skin_settings.backup_control_bouncinglimits, control.bouncinglimits);
+			);
+			set(control.bouncinglimits, false);
+		  ,
+			if(skin_settings.backup_control_bouncinglimits !== null,
+				copy(control.bouncinglimits, skin_settings.backup_control_bouncinglimits);
+			);
+		);
+	</action>
+
 
 	<action name="skin_gotoscene" scope="local" args="newscene">
 		if(scene[get(newscene)],
@@ -1031,7 +1044,7 @@
 		roundval(f, get(pp));
 		roundval(d, 2);
 		roundval(a, 1);
-		set(adr, calc(adr + '?startscene=' + si + '&amp;startlookat='+h+','+v+','+f+','+d+','+a+';'));
+		set(adr, calc(adr + '?startscene=' + si + '&amp;startactions=lookat('+h+','+v+','+f+','+d+','+a+');'));
 		js( history.replaceState(null, document.title, get(adr)); );
 	</action>
 
@@ -1197,8 +1210,8 @@
 	<contextmenu>
 		<item name="kr" caption="KRPANO"     />
 		<item name="fs" caption="FULLSCREEN" />
-		<item name="cc" caption="Change Controlmode" onclick="skin_changecontrolmode();"  separator="above" />
-		<item name="nv" caption="Normal View"        onclick="skin_view_normal();"        showif="view.vlookatrange == 180" separator="above"     />
+		<item name="cc" caption="Change Controlmode" onclick="skin_changecontrolmode();"  separator="true" />
+		<item name="nv" caption="Normal View"        onclick="skin_view_normal();"        showif="view.vlookatrange == 180" separator="true"      />
 		<item name="fv" caption="Fisheye View"       onclick="skin_view_fisheye();"       showif="view.vlookatrange == 180" devices="flash|webgl" />
 		<item name="sv" caption="Stereographic View" onclick="skin_view_stereographic();" showif="view.vlookatrange == 180" devices="flash|webgl" />
 		<item name="av" caption="Architectural View" onclick="skin_view_architectural();" showif="view.vlookatrange == 180"                       />
@@ -1210,29 +1223,13 @@
 
 
 	<action name="skin_changecontrolmode">
-		if(device.html5,
-			switch(control.mode, moveto, drag, follow);
-			skin_changecontrolmode_updatecaption();
-		  ,
-			switch(control.mode, moveto, drag);
-		);
+		switch(control.mouse, moveto, drag, follow);
+		switch(control.touch, moveto, drag, follow);
+		skin_changecontrolmode_updatecaption();
 	</action>
 		
-	<action name="skin_changecontrolmode_updatecaption" autorun="onstart" devices="html5">
-		txtadd(contextmenu.item[cc].caption,
-			"Controlmode: ",
-			"[span style=[sq]", calc(control.mode == 'drag' ? "text-decoration:underline" :""), "[sq]]",
-			"Drag",
-			"[/span]",
-			" | ",
-			"[span style=[sq]", calc(control.mode == 'follow' ? "text-decoration:underline" :""), "[sq]]",
-			"Follow",
-			"[/span]",
-			" | ",
-			"[span style=[sq]", calc(control.mode == 'moveto' ? "text-decoration:underline" :""), "[sq]]",
-			"MoveTo",
-			"[/span]",
-			);
+	<action name="skin_changecontrolmode_updatecaption" autorun="onstart">
+		calc(contextmenu.item[cc].caption, 'Change Controlmode (' + control.mouse + ')');
 	</action>
 
 	<action name="skin_view_look_straight">

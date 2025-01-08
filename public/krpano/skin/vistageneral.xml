@@ -2,7 +2,7 @@
 
 
 
-<layer name="btn_vistageneral" keep="true" visible="false" enabled="false" url="spots/btn-vistageneral.png" scale.desktop="0.56" scale.mobile="0.8" align="top" x="0" y="10" handcursor="true" onclick="cargar_escena(scene_master);" />	
+<layer name="btn_vistageneral" keep="true" visible="false" enabled="false" url="spots/btn-vistageneral.png" scale="0.375" align="topright" x="0" y="10" handcursor="true" onclick="cargar_escena(scene_master);" />	
 
 <action name="mostrar_btn_vistageneral">
 	set(layer[btn_vistageneral].visible,%1);
