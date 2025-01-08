@@ -9,9 +9,7 @@
 	<!-- set skin settings: bingmaps? gyro? thumbnails? tooltips? -->
 	<skin_settings maps="false" maps_type="bing" maps_bing_api_key="" maps_zoombuttons="false" gyro="false" title="true" thumbs="true" thumbs_width="120" thumbs_height="55" thumbs_padding="10" thumbs_crop="0|40|240|160" thumbs_opened="false" thumbs_text="true" thumbs_dragging="true" thumbs_onhoverscrolling="false" thumbs_scrollbuttons="false" thumbs_scrollindicator="false" thumbs_loop="false" tooltips_thumbs="false" tooltips_hotspots="false" tooltips_mapspots="false" loadscene_flags="MERGE" loadscene_blend="BLEND(0.5)" controlbar_offset="20" />
 
-
 	<!-- set optional skin logo url -->
-
 
 	<style name="skin_hotspotstyle1" scale="0.5" zorder="50" handcursor="true" onhover="showtext(Disponible · Ver ficha);" alpha="1" type="text" edge="center" css="font-family:Din Alternate; font-size:21px; color:#000000;font-weight: bold; text-align:center;" vcenter="true" padding="5" bg="true" bgcolor="0xffffff" bgalpha="1.0" bgborder="0" bgroundedge="22" bgshadow="" txtshadow="" width="44" height="44" />
 
