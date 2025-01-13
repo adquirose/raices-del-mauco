@@ -117,7 +117,7 @@ const Ficha = ({ dataLote = {}, setVisibleFicha, visibleFicha }) => {
                 <P>{dataLote.caracteristica}</P>
             </ContainerText>
             <ButtonGroup>
-                <Button type="Button" onClick={() => setVisibleFicha(!visibleFicha)}>CONTINUAR</Button>
+                <Button type="Button" onClick={() => setVisibleFicha(!visibleFicha)}>CONTINUAR VIENDO</Button>
                 <Button type="Button" onClick={() => window.open('/plano.pdf')}>DESCARGAR PLANO</Button>
             </ButtonGroup> 
         </FichaContainer>

@@ -55,7 +55,7 @@
 		<hotspot name="s2" url="skin/spots/lupa.png" style="skin_hotspotstyle2" onclick="looktohotspot(s2, 70, tween(easeOutQuad,3));cargar_escena(scene_2);" onhover="showtext(Ver Vista Lote 2);" ath="107.815" atv="55.186"/>
 		<hotspot name="s19" url="skin/spots/lupa.png" style="skin_hotspotstyle2" onclick="looktohotspot(s19, 70, tween(easeOutQuad,3));cargar_escena(scene_19);" onhover="showtext(Ver Vista Lote 19);" ath="-130.632" atv="52.551"/>
 		<hotspot name="s33" url="skin/spots/lupa.png" style="skin_hotspotstyle2" onclick="looktohotspot(s33, 70, tween(easeOutQuad,3));cargar_escena(scene_33);" onhover="showtext(Ver Vista Lote 33);" ath="9.545" atv="51.394"/>
-		<hotspot name="s49" url="skin/spots/lupa.png" style="skin_hotspotstyle2" onclick="looktohotspot(s49, 70, tween(easeOutQuad,3));cargar_escena(scene_49);" onhover="showtext(Ver Vista Lote 49);" ath="-10.344" atv="72.837"/>
+		<hotspot name="s47" url="skin/spots/lupa.png" style="skin_hotspotstyle2" onclick="looktohotspot(s47, 70, tween(easeOutQuad,3));cargar_escena(scene_47);" onhover="showtext(Ver Vista Lote 47);"  ath="-21.038" atv="85.305"/>
 		<hotspot name="s61" url="skin/spots/lupa.png" style="skin_hotspotstyle2" onclick="looktohotspot(s61, 70, tween(easeOutQuad,3));cargar_escena(scene_61);" onhover="showtext(Ver Vista Lote 61);" ath="-156.171" atv="46.769"/>
 	</scene>
 	<scene name="scene_2" title="Vista Lote 2" onstart="mostrar_btn_vistageneral(true);" thumburl="panos/2.tiles/thumb.jpg" lat="" lng="" alt="" heading="">
@@ -100,7 +100,7 @@
 
 	</scene>
 
-	<scene name="scene_49" title="Vista Lote 49" onstart="mostrar_btn_vistageneral(true);" thumburl="panos/49.tiles/thumb.jpg" lat="" lng="" alt="" heading="">
+	<scene name="scene_47" title="Vista Lote 47" onstart="mostrar_btn_vistageneral(true);" thumburl="panos/49.tiles/thumb.jpg" lat="" lng="" alt="" heading="">
 		
 		<control bouncinglimits="calc:image.cube ? true : false" />
 
