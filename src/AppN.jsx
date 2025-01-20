@@ -23,6 +23,7 @@ const AppN = () => {
                                 <EditarLote/>
                             </RutaPrivada>
                         }/>
+                    <Route path="/*" element={<App/>}/>
                 </Routes>
             </AuthProvider>
         </BrowserRouter>
