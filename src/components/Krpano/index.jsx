@@ -111,7 +111,9 @@ const Ficha = ({ dataLote = {}, setVisibleFicha, visibleFicha }) => {
             </ContainerTitulo>
             <ContainerText>
                 <P>Estado: { estado }</P>
-                <P>Valor: UF { valor }</P>
+                { estado === 'disponible' && 
+                    <P>Valor: UF { valor }</P>
+                }
                 <P>Superficie ROL: { superficie } M2</P>
                 <P>Superficie Util: { superficieUtil } M2</P>
                 <P>{dataLote.caracteristica}</P>
