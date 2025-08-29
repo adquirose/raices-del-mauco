@@ -9,7 +9,7 @@ const BotonCerrarSesion = () => {
     const cerrarSesion = async() => {
         try{
             await signOut(auth)
-            navigate('/signin')
+            navigate('/')
         }catch(error){
             // console.log(error)
         }

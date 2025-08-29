@@ -10,9 +10,9 @@ const RutaPrivada = ({ children }) => {
         return <div>Cargando...</div>
     }
     
-    // Si no hay usuario autenticado, redirigir al login
+    // Si no hay usuario autenticado, redirigir a la página principal
     if (!user) {
-        return <Navigate replace to="/signin"/>
+        return <Navigate replace to="/"/>
     }
     
     return children

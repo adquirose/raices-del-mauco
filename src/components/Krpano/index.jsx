@@ -2,9 +2,31 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect, useRef } from 'react'
 import styled, { keyframes } from 'styled-components'
-import BtnUser from '../../elements/BtnUser'
 import useObtenerLotes from '../../hooks/useObtenerLotes'
-import { LogoWhatsapp } from '../Icons' 
+import { LogoWhatsapp } from '../Icons'
+import { useAuth } from '../../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
+import { signInWithEmailAndPassword } from 'firebase/auth'
+import { auth } from '../../firebase/firebaseConfig'
+import {
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    Box,
+    TextField,
+    Button,
+    Typography,
+    Alert,
+    CircularProgress,
+    IconButton,
+    Fab
+} from '@mui/material'
+import {
+    Login as LoginIcon,
+    Close as CloseIcon,
+    List as ListIcon
+} from '@mui/icons-material'
+import { createTheme, ThemeProvider } from '@mui/material/styles' 
 
 const slideIn = keyframes`
     0% {
@@ -88,7 +110,7 @@ const FichaContainer = styled.div`
     z-index:5;
     animation: ${props => props.$fichaAnimating === 'in' ? slideIn : props.$fichaAnimating === 'out' ? slideOut : slideIn} 0.5s ease-in-out;
 `
-const Button = styled.button`
+const StyledButton = styled.button`
     border:none;
     padding:0.5rem 1rem;
     max-width:120px;
@@ -134,6 +156,39 @@ const ButtonGroup = styled.div`
     width:auto;
 `
 
+// Tema de Material-UI
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: '#2C3E50',
+            light: '#34495E',
+            dark: '#1A252F',
+            contrastText: '#FFFFFF'
+        },
+        secondary: {
+            main: '#7F8C8D',
+            light: '#95A5A6',
+            dark: '#5D6D6E',
+            contrastText: '#FFFFFF'
+        },
+        background: {
+            default: '#ECF0F1',
+            paper: '#FFFFFF'
+        },
+        text: {
+            primary: '#2C3E50',
+            secondary: '#7F8C8D'
+        },
+        error: {
+            main: '#C0392B',
+            light: '#E74C3C'
+        }
+    },
+    typography: {
+        fontFamily: 'Work Sans, sans-serif',
+    },
+})
+
 const linkWs = id => {
     return `https://wa.me/56946346676?text=Hola%20Estoy%20interesado%20en%20el%20lote%20${id}`
 }
@@ -156,9 +211,9 @@ const Ficha = ({ dataLote = {}, setVisibleFicha, visibleFicha, fichaAnimating, s
         <FichaContainer $fichaAnimating={fichaAnimating}>
             <ContainerTitulo>
                 <Titulo>Lote {dataLote.nombreLote}</Titulo>
-                <Button $background="none" onClick={() => window.open(linkWs(dataLote.nombreLote),'blank')}>
+                <StyledButton $background="none" onClick={() => window.open(linkWs(dataLote.nombreLote),'blank')}>
                     <LogoWhatsapp fill="black" width="36" height="36"/>
-                </Button>
+                </StyledButton>
             </ContainerTitulo>
             <ContainerText>
                 <P>Estado: {estado}</P>
@@ -170,8 +225,8 @@ const Ficha = ({ dataLote = {}, setVisibleFicha, visibleFicha, fichaAnimating, s
                 {dataLote.caracteristica && <P>{dataLote.caracteristica}</P>}
             </ContainerText>
             <ButtonGroup>
-                <Button type="Button" onClick={cerrarFicha}>CONTINUAR VIENDO</Button>
-                <Button type="Button" onClick={() => window.open('/plano.pdf')}>DESCARGAR PLANO</Button>
+                <StyledButton type="Button" onClick={cerrarFicha}>CONTINUAR VIENDO</StyledButton>
+                <StyledButton type="Button" onClick={() => window.open('/plano.pdf')}>DESCARGAR PLANO</StyledButton>
             </ButtonGroup> 
         </FichaContainer>
     )
@@ -180,6 +235,9 @@ const Ficha = ({ dataLote = {}, setVisibleFicha, visibleFicha, fichaAnimating, s
 
 const Krpano = () => {
     const { lotes, loading: lotesLoading, error: lotesError } = useObtenerLotes()
+    const { user } = useAuth()
+    const navigate = useNavigate()
+    
     const [nombreEscena, setNombreEscena] = useState('')
     const [visibleFicha, setVisibleFicha] = useState(false)
     const [nombreSpotFicha, setNombreSpotFicha] = useState('')
@@ -187,6 +245,13 @@ const Krpano = () => {
     const [krpanoLoaded, setKrpanoLoaded] = useState(false)
     const [spotsCreated, setSpotsCreated] = useState(false)
     const [fichaAnimating, setFichaAnimating] = useState('') // 'in', 'out', o ''
+    
+    // Estados para el modal de login
+    const [openLoginModal, setOpenLoginModal] = useState(false)
+    const [loginData, setLoginData] = useState({ email: '', password: '' })
+    const [loginLoading, setLoginLoading] = useState(false)
+    const [loginAlert, setLoginAlert] = useState({ active: false, tipo: '', mensaje: '' })
+    
     const krpanoRef = useRef(null)
     const krpanoInstance = useRef(null)
 
@@ -399,7 +464,79 @@ const Krpano = () => {
         }
     }, [nombreSpotFicha, lotes])
 
+    // Funciones para manejar el modal de login
+    const handleLoginClick = () => {
+        if (user) {
+            // Si está autenticado, ir a lista de lotes
+            navigate('/lista-de-lotes')
+        } else {
+            // Si no está autenticado, mostrar modal
+            setOpenLoginModal(true)
+        }
+    }
+
+    const handleLoginClose = () => {
+        setOpenLoginModal(false)
+        setLoginAlert({ active: false, tipo: '', mensaje: '' })
+        setLoginData({ email: '', password: '' })
+    }
+
+    const handleLoginChange = (e) => {
+        setLoginData({ ...loginData, [e.target.name]: e.target.value })
+    }
+
+    const handleLoginSubmit = async (e) => {
+        e.preventDefault()
+        setLoginAlert({ active: false, tipo: '', mensaje: '' })
+        setLoginLoading(true)
+
+        const { email, password } = loginData
+
+        // Validaciones
+        const expresionRegular = /[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+/
+        if (!expresionRegular.test(email)) {
+            setLoginAlert({ active: true, tipo: 'error', mensaje: 'Correo no es válido' })
+            setLoginLoading(false)
+            return
+        }
+        if (email === '' || password === '') {
+            setLoginAlert({ active: true, tipo: 'error', mensaje: 'Rellena todos los campos' })
+            setLoginLoading(false)
+            return
+        }
+
+        try {
+            await signInWithEmailAndPassword(auth, email, password)
+            setLoginAlert({ active: true, mensaje: 'Inicio de sesión exitoso', tipo: 'success' })
+            setTimeout(() => {
+                handleLoginClose()
+                navigate('/lista-de-lotes')
+            }, 1000)
+        } catch (error) {
+            let mensaje
+            switch (error.code) {
+                case 'auth/wrong-password':
+                case 'auth/invalid-credential':
+                    mensaje = 'Credenciales incorrectas'
+                    break
+                case 'auth/user-not-found':
+                    mensaje = 'Usuario no encontrado'
+                    break
+                case 'auth/invalid-email':
+                    mensaje = 'El correo electrónico no es válido'
+                    break
+                default:
+                    mensaje = 'Error al iniciar sesión'
+                    break
+            }
+            setLoginAlert({ active: true, mensaje, tipo: 'error' })
+        } finally {
+            setLoginLoading(false)
+        }
+    }
+
     return(
+        <ThemeProvider theme={theme}>
         <KrpanoContainer>
             {/* Loading indicator para carga de lotes */}
             {(lotesLoading || (!krpanoLoaded && !lotesError)) && (
@@ -428,8 +565,118 @@ const Krpano = () => {
                     fichaAnimating={fichaAnimating}
                     setFichaAnimating={setFichaAnimating}
                 /> } 
-            <BtnUser/>
-        </KrpanoContainer>   
+            
+            {/* Botón flotante para login/admin */}
+            <Fab
+                color="primary"
+                size="small"
+                onClick={handleLoginClick}
+                sx={{
+                    position: 'absolute',
+                    top: 16,
+                    right: 16,
+                    zIndex: 1000
+                }}
+            >
+                {user ? <ListIcon /> : <LoginIcon />}
+            </Fab>
+
+            {/* Modal de Login */}
+            <Dialog
+                open={openLoginModal}
+                onClose={handleLoginClose}
+                maxWidth="xs"
+                fullWidth
+                PaperProps={{
+                    sx: {
+                        backgroundColor: 'background.paper',
+                        borderRadius: 2
+                    }
+                }}
+            >
+                <DialogTitle sx={{ 
+                    display: 'flex', 
+                    justifyContent: 'space-between', 
+                    alignItems: 'center',
+                    pb: 1,
+                    color: 'primary.main'
+                }}>
+                    Acceso Administrativo
+                    <IconButton
+                        edge="end"
+                        color="inherit"
+                        onClick={handleLoginClose}
+                        aria-label="cerrar"
+                    >
+                        <CloseIcon />
+                    </IconButton>
+                </DialogTitle>
+                
+                <DialogContent>
+                    {loginAlert.active && (
+                        <Alert 
+                            severity={loginAlert.tipo} 
+                            sx={{ mb: 2 }}
+                            onClose={() => setLoginAlert({ active: false, tipo: '', mensaje: '' })}
+                        >
+                            {loginAlert.mensaje}
+                        </Alert>
+                    )}
+
+                    <Box component="form" onSubmit={handleLoginSubmit} sx={{ mt: 1 }}>
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="email"
+                            label="Correo Electrónico"
+                            name="email"
+                            autoComplete="email"
+                            autoFocus
+                            value={loginData.email}
+                            onChange={handleLoginChange}
+                            disabled={loginLoading}
+                            variant="outlined"
+                        />
+                        
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="password"
+                            label="Contraseña"
+                            type="password"
+                            id="password"
+                            autoComplete="current-password"
+                            value={loginData.password}
+                            onChange={handleLoginChange}
+                            disabled={loginLoading}
+                            variant="outlined"
+                        />
+                        
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            disabled={loginLoading}
+                            sx={{ 
+                                mt: 3, 
+                                mb: 2, 
+                                height: 48
+                            }}
+                        >
+                            {loginLoading ? (
+                                <CircularProgress size={24} color="inherit" />
+                            ) : (
+                                'Iniciar Sesión'
+                            )}
+                        </Button>
+                    </Box>
+                </DialogContent>
+            </Dialog>
+
+        </KrpanoContainer>
+        </ThemeProvider>   
     )
 }
 export default Krpano
