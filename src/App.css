@@ -3,6 +3,7 @@
   width:100%;
   display: grid;
   grid-template-rows: 70px 1fr;
- 
+  background-color: #ECF0F1; /* Fondo sobrio para el root */
+  min-height: 100vh; /* Asegurar que ocupe toda la altura */
 }
 

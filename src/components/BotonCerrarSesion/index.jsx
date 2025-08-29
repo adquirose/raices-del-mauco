@@ -11,7 +11,7 @@ const BotonCerrarSesion = () => {
             await signOut(auth)
             navigate('/signin')
         }catch(error){
-            console.log(error)
+            // console.log(error)
         }
     }
     return(

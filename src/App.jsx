@@ -4,9 +4,7 @@ import Krpano from './components/Krpano'
 function App() {
   return(
     <>
-     
       <Krpano/>
-
     </>
   )
 }

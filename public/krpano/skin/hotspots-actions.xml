@@ -1,5 +1,4 @@
 <krpano>
-    <events onnewscene="jscall(calc('reactKrpano.nameScene(`' + get(xml.scene) + '`)'))" />
     <!-- /Spots del tour Virtual-->
    <style name="hs_pro_disponible"
         scale="0.5"
@@ -8,6 +7,8 @@
         onhover="showtext(Disponible · Ver ficha);"
         alpha="1"
         type="text"
+        visible="true"
+        
         edge="center"
         css="font-family:Din Alternate; font-size:24px; color:#000000;font-weight: bold; text-align:center;"
         vcenter="true"
@@ -84,6 +85,7 @@
         width="46" height="46"
     />
 
+    <!-- 
     <action name="generar_spots">
         for(set(i,%1), i LE %2, inc(i),
             txtadd(nombre_spot, 'ficha', get(i));
@@ -95,11 +97,45 @@
             crear_hs(get(nombre_spot), get(spot_ath), get(spot_atv), get(spot_estado), get(spot_html));
         );
     </action>
+    -->
+    <action name="mostrar_ficha_lote">
+        set(global.hotspot_nombre, %1);
+        jscall('window.js_mostrarficha()');
+    </action>
+
+    <action name="limpiar_spots_dinamicos">
+        set(spots_ocultados, 0);
+        
+        for(set(i,0), i LT hotspot.count, inc(i),
+            copy(hotspot_name, hotspot[get(i)].name);
+            
+            if(hotspot_name != '' AND hotspot_name != 'undefined',
+                set(hotspot[get(hotspot_name)].visible, false);
+                inc(spots_ocultados);
+            );
+        );
+    </action>
+
+    <action name="mostrar_spots_dinamicos">
+        set(spots_mostrados, 0);
+        
+        for(set(i,0), i LT hotspot.count, inc(i),
+            copy(hotspot_name, hotspot[get(i)].name);
+            
+            if(hotspot_name != '' AND hotspot_name != 'undefined',
+                set(hotspot[get(hotspot_name)].visible, true);
+                inc(spots_mostrados);
+            );
+        );
+    </action>
+
     <action name="crear_hs">
         set(nombreSpot,%1);
         addhotspot(%1);
         set(hotspot[%1].ath,%2);
         set(hotspot[%1].atv,%3);
+        set(hotspot[%1].keep, true); // Mantener el hotspot entre escenas
+        set(hotspot[%1].visible, true); // Visible por defecto
         if(
             %4 == disponible, hotspot[%1].loadstyle(hs_pro_disponible),
             %4 == vendido, hotspot[%1].loadstyle(hs_pro_vendido),
@@ -108,6 +144,6 @@
         );
         
         set(hotspot[%1].html,%5);
-        set(hotspot[%1].onclick,jscall(calc('reactKrpano.mostrarFicha(`' + hotspot[get(name)].name + '`)')));
+        set(hotspot[%1].onclick,mostrar_ficha_lote(%1));
     </action>
 </krpano>

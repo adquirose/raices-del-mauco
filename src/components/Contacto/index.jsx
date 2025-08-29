@@ -120,13 +120,13 @@ const Contacto = () => {
         setIsLoading(true)
         axios.post('https://us-central1-firemailer.cloudfunctions.net/submitContactoFZ', info,{ headers: { "Access-Control-Allow-Origin": "*" }})
             .then(res => {
-                console.log(res.data.message)
+                // console.log(res.data.message)
                 setIsLoading(false)
                 setAlerta({tipo:'exito', mensaje:'Mensaje enviado', active:true})
                 
             })
             .catch(err => {
-                console.log(`ha ocurrido un error ${err}`)
+                // console.log(`ha ocurrido un error ${err}`)
                 setAlerta({tipo:'error', mensaje:'Ocurrio un error', active:true})
             })
             setData({...INITIAL_STATE})  

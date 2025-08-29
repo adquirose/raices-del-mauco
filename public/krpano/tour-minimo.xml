@@ -1,0 +1,12 @@
+<krpano version="1.18" title="Raíces del Mauco - Mínimo">
+
+	<!-- Escena master sin skin -->
+	<scene name="scene_master" title="Masterplan 360º" onstart="jscall(js_nameScene('scene_master'));" thumburl="panos/master.tiles/thumb.jpg">
+		<view hlookat="4062.648" vlookat="29.890" fovtype="MFOV" fov="110.848" maxpixelzoom="2.0" fovmin="70" fovmax="130" limitview="range" hlookatmin="-180" hlookatmax="180" vlookatmin="-33" vlookatmax="90" />
+		<preview url="panos/master.tiles/preview.jpg" />
+		<image>
+			<cube url="panos/master.tiles/pano_%s.jpg" />
+		</image>
+	</scene>
+
+</krpano>

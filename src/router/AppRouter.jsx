@@ -1,12 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import App from "./App";
-import SignIn from "./views/SignIn"
-import RutaPrivada from "./components/RutaPrivada";
-import ListaDeLotes from "./components/ListaDeLotes";
-import EditarLote from "./components/EditarLote";
-import { AuthProvider } from "./context/AuthContext"
+import App from "../App";
+import SignIn from "../views/SignIn"
+import RutaPrivada from "../components/RutaPrivada";
+import ListaDeLotes from "../components/ListaDeLotes";
+import EditarLote from "../components/EditarLote";
+import { AuthProvider } from "../context/AuthContext"
 
-const AppN = () => {
+export const AppRouter = () => {
     return(
         <BrowserRouter>
             <AuthProvider>
@@ -29,4 +29,3 @@ const AppN = () => {
         </BrowserRouter>
     )
 }
-export default AppN

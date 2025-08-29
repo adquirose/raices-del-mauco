@@ -1,9 +1,10 @@
-﻿<krpano version="1.18" title="Raíces del Mauco" onstart="startup();jscall(reactKrpano.onStart()">
+﻿<krpano version="1.18" title="Raíces del Mauco" onstart="startup();">
 
 	<include url="skin/vtourskin.xml" />
 	<include url="skin/vistageneral.xml" />
 	<include url="plugins/showtext.xml" />
 	<include url="skin/hotspots-actions.xml" />
+	<include url="skin/spots.xml" />
 	<include url="skin/vtourskin_design_117.xml" />
 
 	<!-- set skin settings: bingmaps? gyro? thumbnails? tooltips? -->
@@ -13,13 +14,13 @@
 
 	<style name="skin_hotspotstyle1" scale="0.5" zorder="50" handcursor="true" onhover="showtext(Disponible · Ver ficha);" alpha="1" type="text" edge="center" css="font-family:Din Alternate; font-size:21px; color:#000000;font-weight: bold; text-align:center;" vcenter="true" padding="5" bg="true" bgcolor="0xffffff" bgalpha="1.0" bgborder="0" bgroundedge="22" bgshadow="" txtshadow="" width="44" height="44" />
 
-	<style name="spot-andrea" scale="0.4" zorder="50" edge="bottom" align="bottom" alpha="1" capture="false" handcursor="false" fillcolor="0xffff00" fillalpha="0.30" bordercolor="0xffff00" borderalpha="0.80" onover="tween(alpha, 0.1, 0.25);" onout="tween(alpha, 1.0, 0.25);" ondown.touch="asyncloop(pressed, onhover(); );" onup.touch="onout();" />
+	<style name="spot-andrea" scale="0.4" zorder="50" edge="bottom" align="bottom" alpha="1" capture="false" handcursor="false" fillcolor="0xffff00" fillalpha="0.30" strokecolor="0xffff00" strokealpha="0.80" onover="tween(alpha, 0.1, 0.25);" onout="tween(alpha, 1.0, 0.25);" ondown.touch="asyncloop(pressed, onhover(); );" onup.touch="onout();" />
 
 	<style name="skin_hotspotstyle4" scale="0.5" handcursor="false" edge="bottomleft" align="bottom" alpha="1"/>
 	<style name="skin_hotspotstyle5" scale="0.5" handcursor="false" edge="bottomright" align="bottom" alpha="1"/>
 	<style name="skin_hotspotstyle2" scale="0.6" distorted="false" oy="0" handcursor="true" zorder="50" />
 	<style name="skin_hotspotstyle3" scale="0.6" distorted="false" oy="0" handcursor="true" zorder="50" />
-	<textstyle name="default" font="Helvetica" fontsize.no-mobile="14" fontsize.mobile="14" bold="false" background="true" backgroundcolor="0x211915" backgroundalpha="0.667" border="true" borderwidth="2" bordercolor="0xFFFFFF" roundedge="1" textcolor="0xFFFFFF" padding="6 10" textalign="center" yoffset.no-touch="-5" yoffset.touch="-40" />
+	<textstyle name="default" font="Helvetica" fontsize.no-mobile="14" fontsize.mobile="14" bold="false" background="true" backgroundcolor="0x211915" backgroundalpha="0.667" bgborder="true" bgborderwidth="2" bgbordercolor="0xFFFFFF" roundedge="1" textcolor="0xFFFFFF" padding="6 10" textalign="center" yoffset.no-touch="-5" yoffset.touch="-40" />
 
 	<action name="startup">
 		if(startscene === null, copy(startscene,scene[0].name));
@@ -28,7 +29,7 @@
 
 	<layer name="logo" handcursor="false" url="skin/logo-blanco.png" scale="0.35" visible="true" keep="true" edge="top" align="top" x="0" y="0" />
 	<layer name="logo_darwin" handcursor="false" url="skin/logo-darwin.png" scale="0.45" visible="true" keep="true" edge="bottomright" align="bottomright" x="0" y="70" />
-	<scene name="scene_master" title="Masterplan 360º" onstart="mostrar_btn_vistageneral(false);generar_spots(1,64);" thumburl="panos/master.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_master" title="Masterplan 360º" onstart="mostrar_btn_vistageneral(false);jscall(js_namescene('scene_master'));delayedcall(0.2, mostrar_spots_dinamicos());" thumburl="panos/master.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="4062.648" vlookat="29.890" fovtype="MFOV" fov="110.848" maxpixelzoom="2.0" fovmin="70" fovmax="130" limitview="range" hlookatmin="-180" hlookatmax="180" vlookatmin="-33" vlookatmax="90" />
 
@@ -43,39 +44,39 @@
 
 
 
-		<hotspot name="spot1" handcursor="false" style="spot-andrea" url="skin/spots/acceso.png" onhover="showtext(Acceso);" ath="50.538" atv="11.760"/>
-		<hotspot name="spot2" handcursor="false" style="spot-andrea" url="skin/spots/parque.png" onhover="showtext(Mirador / Área de Descanso);" ath="-121.686" atv="81.078"/>
+		<hotspot name="spot1" handcursor="false" style="spot-andrea" url="skin/spots/acceso.png" onhover="showtext(Acceso);" ath="50.538" atv="11.760" keep="true"/>
+		<hotspot name="spot2" handcursor="false" style="spot-andrea" url="skin/spots/parque.png" onhover="showtext(Mirador / Área de Descanso);" ath="-121.686" atv="81.078" keep="true"/>
 
 
 
 
-		<hotspot name="s2" url="skin/spots/lupa.png" style="skin_hotspotstyle3" onclick="looktohotspot(s2, 70, tween(easeOutQuad,3));cargar_escena(scene_2);" onhover="showtext(Ver Vista Lote 2);" ath="106.351" atv="55.239"/>
-		<hotspot name="s9" url="skin/spots/lupa.png" style="skin_hotspotstyle3" onclick="looktohotspot(s9, 70, tween(easeOutQuad,3));cargar_escena(scene_9);" onhover="showtext(Ver Vista Lote 9);" ath="-149.403" atv="73.095"/>
-		<hotspot name="s38" url="skin/spots/lupa.png" style="skin_hotspotstyle3" onclick="looktohotspot(s38, 70, tween(easeOutQuad,3));cargar_escena(scene_38);" onhover="showtext(Ver Vista Lote 38);" ath="48.388" atv="64.486"/>
-		<hotspot name="s41" url="skin/spots/lupa.png" style="skin_hotspotstyle3" onclick="looktohotspot(s41, 70, tween(easeOutQuad,3));cargar_escena(scene_41);" onhover="showtext(Ver Vista Lote 41);" ath="96.342" atv="59.499"/>
-		<hotspot name="s53" url="skin/spots/lupa.png" style="skin_hotspotstyle3" onclick="looktohotspot(s53, 70, tween(easeOutQuad,3));cargar_escena(scene_53);" onhover="showtext(Ver Vista Lote 53);" ath="17.883" atv="71.804"/>
-		<hotspot name="s61" url="skin/spots/lupa.png" style="skin_hotspotstyle3" onclick="looktohotspot(s61, 70, tween(easeOutQuad,3));cargar_escena(scene_61);" onhover="showtext(Ver Vista Lote 61);" ath="-156.259" atv="46.675"/>
+		<hotspot name="s2" url="skin/spots/lupa.png" style="skin_hotspotstyle3" onclick="looktohotspot(s2, 70, tween(easeOutQuad,3));cargar_escena(scene_2);" onhover="showtext(Ver Vista Lote 2);" ath="106.351" atv="55.239" keep="true"/>
+		<hotspot name="s9" url="skin/spots/lupa.png" style="skin_hotspotstyle3" onclick="looktohotspot(s9, 70, tween(easeOutQuad,3));cargar_escena(scene_9);" onhover="showtext(Ver Vista Lote 9);" ath="-149.403" atv="73.095" keep="true"/>
+		<hotspot name="s38" url="skin/spots/lupa.png" style="skin_hotspotstyle3" onclick="looktohotspot(s38, 70, tween(easeOutQuad,3));cargar_escena(scene_38);" onhover="showtext(Ver Vista Lote 38);" ath="48.388" atv="64.486" keep="true"/>
+		<hotspot name="s41" url="skin/spots/lupa.png" style="skin_hotspotstyle3" onclick="looktohotspot(s41, 70, tween(easeOutQuad,3));cargar_escena(scene_41);" onhover="showtext(Ver Vista Lote 41);" ath="96.342" atv="59.499" keep="true"/>
+		<hotspot name="s53" url="skin/spots/lupa.png" style="skin_hotspotstyle3" onclick="looktohotspot(s53, 70, tween(easeOutQuad,3));cargar_escena(scene_53);" onhover="showtext(Ver Vista Lote 53);" ath="17.883" atv="71.804" keep="true"/>
+		<hotspot name="s61" url="skin/spots/lupa.png" style="skin_hotspotstyle3" onclick="looktohotspot(s61, 70, tween(easeOutQuad,3));cargar_escena(scene_61);" onhover="showtext(Ver Vista Lote 61);" ath="-156.259" atv="46.675" keep="true"/>
 
 
 
 
-		<hotspot name="hito1" style="skin_hotspotstyle5" url="skin/spots/1.png" ath="49.007" atv="-1.050"/>
-		<hotspot name="hito3" style="skin_hotspotstyle5" url="skin/spots/3.png" ath="33.646" atv="-0.981"/>
-		<hotspot name="hito2" style="skin_hotspotstyle5" url="skin/spots/2.png" ath="41.197" atv="-0.734"/>
-		<hotspot name="hito4" style="skin_hotspotstyle4" url="skin/spots/4.png" ath="68.090" atv="-0.359"/>
-		<hotspot name="hito5" style="skin_hotspotstyle4" url="skin/spots/5.png" ath="70.545" atv="-0.065"/>
-		<hotspot name="hito6" style="skin_hotspotstyle4" url="skin/spots/6.png" ath="79.370" atv="1.423"/>
-		<hotspot name="hito7" style="skin_hotspotstyle4" url="skin/spots/7.png" ath="88.218" atv="2.155"/>
-		<hotspot name="hito8" style="skin_hotspotstyle5" url="skin/spots/8.png" ath="146.236" atv="0.883"/>
-		<hotspot name="hito9" style="skin_hotspotstyle4" url="skin/spots/9.png" ath="149.242" atv="0.753"/>
-		<hotspot name="hito10" style="skin_hotspotstyle4" url="skin/spots/10.png" ath="-138.420" atv="-6.616"/>
-		<hotspot name="hito11" style="skin_hotspotstyle4" url="skin/spots/11.png" ath="75.418" atv="1.408"/>
+		<hotspot name="hito1" style="skin_hotspotstyle5" url="skin/spots/1.png" ath="49.007" atv="-1.050" keep="true"/>
+		<hotspot name="hito3" style="skin_hotspotstyle5" url="skin/spots/3.png" ath="33.646" atv="-0.981" keep="true"/>
+		<hotspot name="hito2" style="skin_hotspotstyle5" url="skin/spots/2.png" ath="41.197" atv="-0.734" keep="true"/>
+		<hotspot name="hito4" style="skin_hotspotstyle4" url="skin/spots/4.png" ath="68.090" atv="-0.359" keep="true"/>
+		<hotspot name="hito5" style="skin_hotspotstyle4" url="skin/spots/5.png" ath="70.545" atv="-0.065" keep="true"/>
+		<hotspot name="hito6" style="skin_hotspotstyle4" url="skin/spots/6.png" ath="79.370" atv="1.423" keep="true"/>
+		<hotspot name="hito7" style="skin_hotspotstyle4" url="skin/spots/7.png" ath="88.218" atv="2.155" keep="true"/>
+		<hotspot name="hito8" style="skin_hotspotstyle5" url="skin/spots/8.png" ath="146.236" atv="0.883" keep="true"/>
+		<hotspot name="hito9" style="skin_hotspotstyle4" url="skin/spots/9.png" ath="149.242" atv="0.753" keep="true"/>
+		<hotspot name="hito10" style="skin_hotspotstyle4" url="skin/spots/10.png" ath="-138.420" atv="-6.616" keep="true"/>
+		<hotspot name="hito11" style="skin_hotspotstyle4" url="skin/spots/11.png" ath="75.418" atv="1.408" keep="true"/>
 
 
 
 	</scene>
 
-	<scene name="scene_2" title="Vista Lote 2" onstart="mostrar_btn_vistageneral(true);" thumburl="panos/2.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_2" title="Vista Lote 2" onstart="mostrar_btn_vistageneral(true);limpiar_spots_dinamicos();" thumburl="panos/2.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="-546.344" vlookat="4.639" fovtype="MFOV" fov="100.200" maxpixelzoom="2.0" fovmin="70" fovmax="130" limitview="range" hlookatmin="-180" hlookatmax="180" vlookatmin="-33" vlookatmax="90" />
 
@@ -92,7 +93,7 @@
 
 	</scene>
 
-	<scene name="scene_9" title="Vista Lote 9" onstart="mostrar_btn_vistageneral(true);" thumburl="panos/9.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_9" title="Vista Lote 9" onstart="mostrar_btn_vistageneral(true);limpiar_spots_dinamicos();" thumburl="panos/9.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="-609.640" vlookat="4.639" fovtype="MFOV" fov="100.200" maxpixelzoom="2.0" fovmin="70" fovmax="130" limitview="range" hlookatmin="-180" hlookatmax="180" vlookatmin="-33" vlookatmax="90" />
 
@@ -109,7 +110,7 @@
 
 	</scene>
 
-	<scene name="scene_38" title="Vista Lote 38" onstart="mostrar_btn_vistageneral(true);" thumburl="panos/38.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_38" title="Vista Lote 38" onstart="mostrar_btn_vistageneral(true);limpiar_spots_dinamicos();" thumburl="panos/38.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="-180.945" vlookat="9.655" fovtype="MFOV" fov="100.200" maxpixelzoom="2.0" fovmin="70" fovmax="130" limitview="range" hlookatmin="-180" hlookatmax="180" vlookatmin="-33" vlookatmax="90" />
 
@@ -126,7 +127,7 @@
 
 	</scene>
 
-	<scene name="scene_41" title="Vista Lote 41" onstart="mostrar_btn_vistageneral(true);" thumburl="panos/41.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_41" title="Vista Lote 41" onstart="mostrar_btn_vistageneral(true);limpiar_spots_dinamicos();" thumburl="panos/41.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="-248.028" vlookat="4.639" fovtype="MFOV" fov="100.200" maxpixelzoom="2.0" fovmin="70" fovmax="130" limitview="range" hlookatmin="-180" hlookatmax="180" vlookatmin="-33" vlookatmax="90" />
 
@@ -143,7 +144,7 @@
 
 	</scene>
 
-	<scene name="scene_53" title="Vista Lote 53" onstart="mostrar_btn_vistageneral(true);" thumburl="panos/53.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_53" title="Vista Lote 53" onstart="mostrar_btn_vistageneral(true);limpiar_spots_dinamicos();" thumburl="panos/53.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="-147.028" vlookat="4.639" fovtype="MFOV" fov="100.200" maxpixelzoom="2.0" fovmin="70" fovmax="130" limitview="range" hlookatmin="-180" hlookatmax="180" vlookatmin="-33" vlookatmax="90" />
 
@@ -160,7 +161,7 @@
 
 	</scene>
 
-	<scene name="scene_61" title="Vista Lote 61" onstart="mostrar_btn_vistageneral(true);" thumburl="panos/61.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_61" title="Vista Lote 61" onstart="mostrar_btn_vistageneral(true);limpiar_spots_dinamicos();" thumburl="panos/61.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="99.613" vlookat="4.639" fovtype="MFOV" fov="100.200" maxpixelzoom="2.0" fovmin="70" fovmax="130" limitview="range" hlookatmin="-180" hlookatmax="180" vlookatmin="-33" vlookatmax="90" />
 

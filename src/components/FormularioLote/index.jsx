@@ -1,117 +1,82 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react'
 import agregarLote from '../../firebase/agregarLote'
-import Alerta from '../Alerta'
 import { getUnixTime } from 'date-fns'
-import styled from 'styled-components'
 import { useAuth } from '../../context/AuthContext.jsx'
 import { useNavigate } from 'react-router-dom'
 import { fromUnixTime } from 'date-fns'
 import editarLote from '../../firebase/editarLote.js'
-import SelectEstados from '../SelectEstados/index.jsx'
-import theme from '../../constants'
+import {
+    Container,
+    Paper,
+    Box,
+    TextField,
+    Button,
+    Typography,
+    Alert,
+    CircularProgress,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    AppBar,
+    Toolbar,
+    IconButton,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogContentText,
+    DialogActions
+} from '@mui/material'
+import {
+    ArrowBack as ArrowBackIcon,
+    Save as SaveIcon,
+    Add as AddIcon,
+    Cancel as CancelIcon
+} from '@mui/icons-material'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
 
-const FormContainer = styled.div`
-    border: 1px solid gray;
-    max-width:360px;
-    width: 100%;
-    max-height: 620px;
-    min-height:310px;
-    overflow-y:auto;
-    box-shadow: 0 1.25rem 2.5rem rgba(0,0,0,.05);
-    border-radius: 0.625rem;
-    padding: 1.25rem;
-   
-    @media(max-width:420px){
-        padding: 16px;
-        max-width:320px;
-    }
-`
-const Container = styled.div`
-    width:100%;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-   
-`
-const Form = styled.form`
-    height:100%;
-    max-width:100%;
-    display:grid;
-    grid-gap:2px;
-    grid-template-columns:repeat(auto-fill,minmax(320px, 1fr));
-    
-    grid-auto-rows:auto;
-`
-const Label = styled.label`
-    max-width:190px;
-    min-width:180px;
-    font-size: 1.25rem; 
-    align-self:center;
-    margin-right:1rem;
-`
-const Input = styled.input`
-    background: ${theme.grisClaro};
-    cursor: pointer;
-    min-width:40px;
-    max-width:240px;
-    width:100%;
-    border-radius: 0.25rem;
-    border: none;
-    position: relative;
-    height: 36px; 
-    padding-left:1.25rem;
-    font-size: 1rem; 
-    transition: .5s ease all;
-    &:hover {
-        background: ${theme.grisClaro2};
-    }
-`
-const TextArea = styled.textarea`
-    background: ${theme.grisClaro};
-    cursor: pointer;
-    border-radius: 0.25rem;
-    border: none;
-    max-height: 120px; 
-    width:100%;
-    min-width: 320px;
-    box-sizing:border-box;
-    padding-left:1.25rem;
-    margin-top:0.5rem;
-    padding-top:1rem;
-    
-    font-size: 1.25rem; 
-    font-family:'Work Sans', sans-serif; 
-    transition: .5s ease all;
-    &:hover {
-        background: ${theme.grisClaro2};
-    }
-    @media(max-width:420px){
-        padding: 16px;
-    }
-`
-const InputLabel = styled.div`
-    display:flex;
-    width:100%;
-    margin:0.25rem 0;
-    box-sizing:border-box;
-`
-const Button = styled.button`
-    border-radius:5px;
-    padding:0.75rem 0.75rem;
-    background-color: lightblue;
-    color:white;
-    font-size: 1rem;
-    border:none;
-    cursor:pointer;
-    height:3rem;
-    transition: .5s ease all;
-    &:hover{
-        background-color:blue;
-    }
-    
-`
+// Crear tema personalizado con paleta sobria
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: '#2C3E50',        // Azul marino oscuro
+            light: '#34495E',       // Azul gris
+            dark: '#1A252F',        // Azul muy oscuro
+            contrastText: '#FFFFFF'
+        },
+        secondary: {
+            main: '#7F8C8D',        // Gris medio
+            light: '#95A5A6',       // Gris claro
+            dark: '#5D6D6E',        // Gris oscuro
+            contrastText: '#FFFFFF'
+        },
+        background: {
+            default: '#ECF0F1',     // Gris muy claro
+            paper: '#FFFFFF'
+        },
+        text: {
+            primary: '#2C3E50',
+            secondary: '#7F8C8D'
+        },
+        error: {
+            main: '#C0392B',        // Rojo sobrio
+            light: '#E74C3C'
+        },
+        warning: {
+            main: '#E67E22',        // Naranja sobrio
+            light: '#F39C12'
+        },
+        success: {
+            main: '#27AE60',        // Verde sobrio
+            light: '#2ECC71'
+        }
+    },
+    typography: {
+        fontFamily: 'Work Sans, sans-serif',
+    },
+})
+
 const INITIAL_STATE_LOTE = {
     ath:'',
     atv:'',
@@ -121,97 +86,332 @@ const INITIAL_STATE_LOTE = {
     valor:'',
     superficie:'',
     superficieUtil:'',
-    fecha: new Date()
+    fecha: new Date(),
+    html:'',
+    caracteristica:''
 }
-const INITIAL_STATE_ALERTA = {
-    active: false, tipo:'', mensaje:'' 
-}
-const FormularioLote = ({lote}) => {
 
-    const [data, setData] = useState({...INITIAL_STATE_LOTE})
-    const [alerta, setAlerta] = useState({...INITIAL_STATE_ALERTA})
-    const navigate = useNavigate()
+const INITIAL_STATE_ALERTA = {
+    active: false, 
+    tipo:'', 
+    mensaje:'' 
+}
+
+const FormularioLote = ({lote}) => {
+    const [data, setData] = useState(INITIAL_STATE_LOTE)
+    const [alerta, setAlerta] = useState(INITIAL_STATE_ALERTA)
+    const [loading, setLoading] = useState(false)
+    const [openCancelDialog, setOpenCancelDialog] = useState(false)
     const { user } = useAuth()
-    
+    const navigate = useNavigate()
+
     useEffect(() => {
-        if(lote){
-            if(user.uid){
-                setData({            
-                    nombreLote: lote.data().nombreLote,
-                    valor: lote.data().valor,
-                    estado:lote.data().estado,
-                    fecha: fromUnixTime(lote.data().fecha),
-                    ...lote.data()
-                })
-            }else{
-                navigate('/lista-de-lotes')
-            }
+        if(!user){
+            navigate('/')
         }
-    },[lote, user, navigate])
+    },[user, navigate])
+
+    // Efecto para cargar los datos del lote cuando esté disponible
+    useEffect(() => {
+        if (lote) {
+            let loteData = {}
+            
+            // Si es un documento de Firestore, extraer los datos
+            if (lote.data && typeof lote.data === 'function') {
+                loteData = lote.data()
+                loteData.id = lote.id
+            } 
+            // Si ya es un objeto plano
+            else if (typeof lote === 'object') {
+                loteData = lote
+            }
+
+            setData({
+                ath: loteData.ath || '',
+                atv: loteData.atv || '',
+                nombreSpot: loteData.nombreSpot || '',
+                estado: loteData.estado || 'disponible',
+                nombreLote: loteData.nombreLote || '',
+                valor: loteData.valor || '',
+                superficie: loteData.superficie || '',
+                superficieUtil: loteData.superficieUtil || '',
+                fecha: loteData.fecha ? fromUnixTime(loteData.fecha) : new Date(),
+                html: loteData.html || '',
+                caracteristica: loteData.caracteristica || '',
+                id: loteData.id || ''
+            })
+        }
+    }, [lote])
+
     const handleChange = event => {
         setData({
             ...data, 
             [event.target.name]: event.target.value
         })
     }
-    const handleSubmit = event => {
+
+    const handleSubmit = async (event) => {
         event.preventDefault()
-        const { fecha, valor, estado, nombreLote, superficie, superficieUtil } = data 
-        const newLote = { valor, estado, nombreLote, superficie, superficieUtil, fecha: getUnixTime(fecha), uid:user.uid }
-        if(lote){
-            editarLote({
-                ...data,
-                id:lote.id,
-                fecha:getUnixTime(data.fecha)
-            }).then(() => {
-                setAlerta({active: true, tipo:'exito', mensaje:'Lote actualizado' })
-            }).then(() => {
-                navigate("/lista-de-lotes")
-        }).catch((error) => console.log(error))
-        }else{
-            agregarLote(newLote)
-                .then(() => {
-                    setData({...INITIAL_STATE_LOTE})
-                    setAlerta({active: true, tipo:'exito', mensaje:'Se ha creado un lote en el masterplan' })
+        setLoading(true)
+        setAlerta({...INITIAL_STATE_ALERTA})
+
+        try {
+            const { fecha, valor, estado, nombreLote, superficie, superficieUtil } = data 
+            const newLote = { valor, estado, nombreLote, superficie, superficieUtil, fecha: getUnixTime(fecha), uid:user.uid }
+            
+            if(lote && data.id){
+                await editarLote({
+                    ...data,
+                    id: data.id,
+                    fecha: getUnixTime(data.fecha)
                 })
-                .catch((error)=> {
-                    setAlerta({active: true, tipo:'error', mensaje:`Ocurrio un error: ${error}` })
-                })
+                setAlerta({active: true, tipo:'success', mensaje:'Lote actualizado exitosamente' })
+                setTimeout(() => navigate("/lista-de-lotes"), 1500)
+            } else {
+                await agregarLote(newLote)
+                setData({...INITIAL_STATE_LOTE})
+                setAlerta({active: true, tipo:'success', mensaje:'Lote creado exitosamente' })
+            }
+        } catch (error) {
+            setAlerta({active: true, tipo:'error', mensaje:`Ocurrio un error: ${error.message}` })
+        } finally {
+            setLoading(false)
         }
     }
+
+    const handleBack = () => {
+        navigate('/lista-de-lotes')
+    }
+
+    const handleCancel = () => {
+        if (data.id) {
+            // Si está editando, mostrar dialog de confirmación
+            setOpenCancelDialog(true)
+        } else {
+            // Si está creando, regresar sin confirmación
+            navigate('/lista-de-lotes')
+        }
+    }
+
+    const handleConfirmCancel = () => {
+        setOpenCancelDialog(false)
+        navigate('/lista-de-lotes')
+    }
+
+    const handleCloseCancelDialog = () => {
+        setOpenCancelDialog(false)
+        // Devolver foco a un elemento específico después de cerrar
+        setTimeout(() => {
+            const cancelButton = document.querySelector('[data-testid="cancel-button"]')
+            if (cancelButton) {
+                cancelButton.focus()
+            }
+        }, 100)
+    }
+
     return(
-        <Container>
-            <FormContainer>
-                <Form onSubmit={handleSubmit}>
-                    <InputLabel>
-                        <Label>Nombre del Lote:</Label>
-                        <Input type="text" name="nombreLote" value={data.nombreLote} onChange={handleChange} placeholder="Nombre Lote"/>
-                    </InputLabel>
-                    <InputLabel>
-                        <Label>Valor:</Label>
-                        <Input type="text" name="valor" value={data.valor} onChange={handleChange} placeholder="Valor UF"/>
-                    </InputLabel>
-                    <InputLabel>
-                        <Label>Estado:</Label>
-                        <SelectEstados data={data} setData={setData}/>
-                    </InputLabel>
-                    <InputLabel>
-                        <Label>Superficie M2</Label>
-                        <Input type="text" name="superficie" value={data.superficie} onChange={handleChange} placeholder="Superficie M2"/>
-                    </InputLabel>
-                    <InputLabel>
-                        <Label>Sup. Util M2</Label>
-                        <Input type="text" name="superficieUtil" value={data.superficieUtil} onChange={handleChange} placeholder="Superficie Util M2"/>
-                    </InputLabel>
-                    
-                    <InputLabel>
-                        <Button type="submit">{lote ? 'Actualizar': 'Crear Lote'}</Button>
-                    </InputLabel>
-                    
-                </Form>
-                <Alerta alerta={alerta} setAlerta={setAlerta}/>
-            </FormContainer>
-        </Container>
+        <ThemeProvider theme={theme}>
+            <Box sx={{
+                minHeight: '100vh',
+                width: '100%',
+                bgcolor: 'background.default'
+            }}>
+                {/* Header */}
+                <AppBar position="sticky" elevation={2}>
+                    <Toolbar>
+                        <IconButton
+                            edge="start"
+                            color="inherit"
+                            onClick={handleBack}
+                            sx={{ mr: 2 }}
+                        >
+                            <ArrowBackIcon />
+                        </IconButton>
+                        
+                        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                            {data.id ? 'Editar Lote' : 'Crear Nuevo Lote'}
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
+
+                <Container maxWidth="sm" sx={{ py: 3 }}>
+                    <Paper elevation={3} sx={{ p: 4, borderRadius: 2 }}>
+                        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="nombreLote"
+                                label="Nombre del Lote"
+                                name="nombreLote"
+                                value={data.nombreLote || ''}
+                                onChange={handleChange}
+                                placeholder="Ej: 1, 2, 3..."
+                                disabled={loading || !!data.id} // Convertir data.id a boolean
+                                InputProps={{
+                                    readOnly: !!data.id, // Solo lectura si tiene ID (modo edición)
+                                }}
+                                helperText={data.id ? "El nombre del lote no puede modificarse" : ""}
+                            />
+
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="valor"
+                                label="Valor UF"
+                                name="valor"
+                                type="number"
+                                value={data.valor || ''}
+                                onChange={handleChange}
+                                placeholder="Ej: 1300"
+                                disabled={loading}
+                            />
+
+                            <FormControl fullWidth margin="normal" required>
+                                <InputLabel id="estado-label">Estado</InputLabel>
+                                <Select
+                                    labelId="estado-label"
+                                    id="estado"
+                                    name="estado"
+                                    value={data.estado || 'disponible'}
+                                    label="Estado"
+                                    onChange={handleChange}
+                                    disabled={loading}
+                                >
+                                    <MenuItem value="disponible">Disponible</MenuItem>
+                                    <MenuItem value="reservado">Reservado</MenuItem>
+                                    <MenuItem value="vendido">Vendido</MenuItem>
+                                    <MenuItem value="nodisponible">No Disponible</MenuItem>
+                                </Select>
+                            </FormControl>
+
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="superficie"
+                                label="Superficie ROL (M²)"
+                                name="superficie"
+                                type="number"
+                                value={data.superficie || ''}
+                                onChange={handleChange}
+                                placeholder="Ej: 450"
+                                disabled={loading}
+                            />
+
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="superficieUtil"
+                                label="Superficie Útil (M²)"
+                                name="superficieUtil"
+                                type="number"
+                                value={data.superficieUtil || ''}
+                                onChange={handleChange}
+                                placeholder="Ej: 400"
+                                disabled={loading}
+                            />
+
+                            {/* Alert */}
+                            {alerta.active && (
+                                <Alert 
+                                    severity={alerta.tipo} 
+                                    sx={{ mt: 2, mb: 2 }}
+                                    onClose={() => setAlerta({...INITIAL_STATE_ALERTA})}
+                                >
+                                    {alerta.mensaje}
+                                </Alert>
+                            )}
+
+                            {/* Botones de acción */}
+                            <Box sx={{ 
+                                display: 'flex', 
+                                gap: 2, 
+                                mt: 3, 
+                                mb: 2,
+                                flexDirection: { xs: 'column', sm: 'row' }
+                            }}>
+                                <Button
+                                    fullWidth
+                                    variant="outlined"
+                                    disabled={loading}
+                                    startIcon={<CancelIcon />}
+                                    onClick={handleCancel}
+                                    data-testid="cancel-button"
+                                    sx={{ 
+                                        height: 48,
+                                        fontSize: { xs: '0.9rem', sm: '1rem' },
+                                        fontWeight: 600,
+                                        whiteSpace: 'nowrap'
+                                    }}
+                                >
+                                    Cancelar
+                                </Button>
+
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    disabled={loading}
+                                    startIcon={loading ? <CircularProgress size={20} /> : (data.id ? <SaveIcon /> : <AddIcon />)}
+                                    sx={{ 
+                                        height: 48,
+                                        fontSize: { xs: '0.9rem', sm: '1rem' },
+                                        fontWeight: 600,
+                                        whiteSpace: 'nowrap',
+                                        minWidth: 'auto'
+                                    }}
+                                >
+                                    {loading ? 'Procesando...' : (data.id ? 'Actualizar' : 'Crear Lote')}
+                                </Button>
+                            </Box>
+                        </Box>
+                    </Paper>
+                </Container>
+
+                {/* Dialog de confirmación para cancelar */}
+                <Dialog
+                    open={openCancelDialog}
+                    onClose={handleCloseCancelDialog}
+                    aria-labelledby="cancel-dialog-title"
+                    aria-describedby="cancel-dialog-description"
+                    maxWidth="xs"
+                    fullWidth
+                    disablePortal={false}
+                    keepMounted={false}
+                    disableRestoreFocus={true}
+                    disableAutoFocus={false}
+                >
+                    <DialogTitle id="cancel-dialog-title" sx={{ pb: 1 }}>
+                        Confirmar Cancelación
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="cancel-dialog-description">
+                            ¿Descartar los cambios realizados?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions sx={{ px: 3, pb: 2 }}>
+                        <Button 
+                            onClick={handleCloseCancelDialog}
+                            variant="outlined"
+                            color="primary"
+                        >
+                            Continuar
+                        </Button>
+                        <Button 
+                            onClick={handleConfirmCancel}
+                            variant="contained"
+                            color="error"
+                        >
+                            Descartar
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            </Box>
+        </ThemeProvider>
     )
 }
+
 export default FormularioLote

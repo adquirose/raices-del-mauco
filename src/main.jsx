@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom/client'
-import AppN from './AppN.jsx'
+import { AppRouter } from './router/AppRouter.jsx'
 import './index.css'
 import WebFont from 'webfontloader'
 
@@ -10,5 +10,5 @@ WebFont.load({
 })
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <AppN />,
+  <AppRouter />,
 )

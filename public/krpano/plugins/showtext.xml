@@ -113,7 +113,7 @@
 		if(ts.background      !== null, copy(tf.background,      ts.background));
 		if(ts.backgroundcolor !== null, copy(tf.backgroundcolor, ts.backgroundcolor));
 		if(ts.backgroundalpha !== null, copy(tf.backgroundalpha, ts.backgroundalpha));
-		if(ts.border          !== null, copy(tf.border,          ts.border), set(tf.border,true));
+		if(ts.border          !== null, copy(tf.bgborder,        ts.border), set(tf.bgborder,true));
 		if(ts.bordercolor     !== null, copy(tf.bordercolor,     ts.bordercolor));
 		if(ts.borderalpha     !== null, copy(tf.borderalpha,     ts.borderalpha));
 		if(ts.borderwidth     !== null, copy(tf.borderwidth,     ts.borderwidth));

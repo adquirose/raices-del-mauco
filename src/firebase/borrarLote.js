@@ -5,7 +5,7 @@ const borrarLote = async(id) => {
     try{
         await deleteDoc(doc(db, 'proyectos/raices-mauco/lotes', id))
     }catch(error){
-        console.log(error)
+        // console.log(error)
     }
 }
 export default borrarLote

@@ -4,13 +4,15 @@
 }
 html { 
   height: 100%;
+  background-color: #ECF0F1; /* Fondo sobrio global */
 }
 body { 
   height:100%;
   margin:0; 
   padding:0; 
   font-family:'Work Sans', sans-serif; 
-  font-size:16px;  
+  font-size:16px;
+  background-color: #ECF0F1; /* Fondo sobrio para body */
 }  
 
 

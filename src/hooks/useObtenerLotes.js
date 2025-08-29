@@ -4,17 +4,37 @@ import { collection, getDocs, orderBy, query } from "firebase/firestore"
 
 const useObtenerLotes = () => {
     const [lotes, setLotes] = useState([])
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
 
     const fetchData = async() => {
-        const querySnapshot = await getDocs(query(collection(db, "proyectos","raices-mauco", "lotes"),orderBy("html")))
-        querySnapshot.forEach((doc) => {
-            const newLote = {
-                id:doc.id,
-                ...doc.data()
-            }
-            setLotes( oldArray => [...oldArray, newLote])
-        });
+        try {
+            setLoading(true)
+            setError(null)
+            setLotes([]) // Limpiar lotes previos
+            
+            // console.log('Obteniendo lotes desde Firestore...')
+            const querySnapshot = await getDocs(query(collection(db, "proyectos","raices-mauco", "lotes"),orderBy("html")))
+            
+            const lotesArray = []
+            querySnapshot.forEach((doc) => {
+                const newLote = {
+                    id: doc.id,
+                    ...doc.data()
+                }
+                lotesArray.push(newLote)
+            });
+            
+            // console.log(`${lotesArray.length} lotes obtenidos desde Firestore`)
+            setLotes(lotesArray)
+        } catch (err) {
+            // console.error('Error obteniendo lotes:', err)
+            setError(err.message || 'Error al cargar los lotes')
+        } finally {
+            setLoading(false)
+        }
     }
+    
     useEffect(()=> {
         fetchData()
     },[])
@@ -32,6 +52,6 @@ const useObtenerLotes = () => {
     //     })
     //     return unsuscribe
     // },[])
-    return lotes
+    return { lotes, loading, error }
 }
 export default useObtenerLotes
